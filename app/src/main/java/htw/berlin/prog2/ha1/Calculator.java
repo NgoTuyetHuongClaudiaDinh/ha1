@@ -44,12 +44,24 @@ public class Calculator {
      * Werte sowie der aktuelle Operationsmodus zurückgesetzt, so dass der Rechner wieder
      * im Ursprungszustand ist.
      */
-    public void pressClearKey() {
-        screen = "0";
-        latestOperation = "";
-        latestValue = 0.0;
-    }
 
+    //Erster Tastendruck: Bildschirm wird auf "0" gesetzt, und clearKeyPressed wird auf true gesetzt.
+    //Zweiter Tastendruck: Bildschirm, die zuletzt ausgeführte Operation und der zwischengespeicherte Wert werden zurückgesetzt, und clearKeyPressed wird auf false zurückgesetzt.
+
+     private boolean clearKeyPressed = false; // Klassenvariable, um den Status zwischen Aufrufen zu speichern (Clear Taste einmal gedrückt oder nicht (true vs false))
+     public void pressClearKey() {
+         if (!clearKeyPressed) {
+             screen = "0"; // Erstes drücken der CLear Taste: setzt Bildschirm auf '0' (speichert aber zwischengespeicherte Werte)
+             clearKeyPressed = true; // Setzt den Status auf 'true', da clear taste nur einmal gedrückt
+
+         } else { //Wenn die Methode erneut aufgerufen wird, ist clear bereits true, was bedeutet, dass die  Clear-Taste zuvor bereits gedrückt wurde.
+             screen = "0";
+             latestOperation = ""; // Bildschirm setzt letzte Operation zurück
+             latestValue = 0.0; // Bildschirm setzt zwischengespeicherte Werte auf '0.0' 
+             clearKeyPressed = false; // Funktion wird zurück auf false gesetzt 
+         }
+     }
+     
     /**
      * Empfängt den Wert einer gedrückten binären Operationstaste, also eine der vier Operationen
      * Addition, Substraktion, Division, oder Multiplikation, welche zwei Operanden benötigen.
@@ -118,6 +130,10 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
+        if (latestOperation.isEmpty()) {
+            // Keine Operation gesetzt, also wird nichts verändert und soll zurückkehren (bzw Eingabe ohne Operation soll nochmal auf dem Bildschrim angezeigt werden)
+            return;
+        }
         var result = switch(latestOperation) {
             case "+" -> latestValue + Double.parseDouble(screen);
             case "-" -> latestValue - Double.parseDouble(screen);

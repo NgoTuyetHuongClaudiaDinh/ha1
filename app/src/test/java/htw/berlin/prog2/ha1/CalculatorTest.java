@@ -95,9 +95,10 @@ class CalculatorTest {
     * Teilaufgabe 1: Schreiben Sie einen neuen zusätzlichen Test,
     * der eine bisher nicht getestete Funktionalität abdeckt, die
     * bereits funktioniert und der daher direkt grün wird.
-    * Testfall: Subtaktion von positiven Zahlen
     */
 
+    //Testfall: Subtaktion von positiven Zahlen
+    
     @Test
     @DisplayName("should display result after subtracting two positive multi-digit numbers")
       void testPositiveSubtraction() {
